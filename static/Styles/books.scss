@@ -1,0 +1,26 @@
+.container {
+
+  padding:20px;
+
+  $colors_list: green blue red orange;
+  @each $color in $colors_list {
+      .text-#{$color} {
+          color: $color;
+        }
+  }
+}
+
+#header {
+  font-style: italic;
+}
+
+#header_roster {
+  @extend #header;
+  font-stretch: semi-condensed;
+}
+
+@media only screen and (max-width: 600px) {
+    .ac-milan-text {
+        color: red;
+    }
+}

@@ -1,0 +1,31 @@
+.container {
+  padding: 20px;
+}
+.container .text-green {
+  color: green;
+}
+.container .text-blue {
+  color: blue;
+}
+.container .text-red {
+  color: red;
+}
+.container .text-orange {
+  color: orange;
+}
+
+#header, #header_roster {
+  font-style: italic;
+}
+
+#header_roster {
+  font-stretch: semi-condensed;
+}
+
+@media only screen and (max-width: 600px) {
+  .ac-milan-text {
+    color: red;
+  }
+}
+
+/*# sourceMappingURL=books.css.map */
