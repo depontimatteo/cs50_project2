@@ -1,5 +1,5 @@
 
-  document.addEventListener("DomContentLoaded", () => {
+  document.addEventListener("DOMContentLoaded", () => {
       var socket = io.connect(location.protocol + "//" + document.domain + ":" + location.port);
 
       alert("qui!");
@@ -7,13 +7,14 @@
           document.querySelectorAll("button").forEach(button => {
               button.onclick = () => {
                   alert("lancio emit");
-                  socket.emit("evento");
+                  message = "Websocket client connected";
+                  socket.emit("evento", {"message": message});
               };
           });
       });
 
-      socket.on("registrato", () => {
-        document.querySelector("body").innerHTML += "registrato!";
+      socket.on("registrato", data => {
+        document.querySelector("body").innerHTML += "${data.message}";
       });
   });
 

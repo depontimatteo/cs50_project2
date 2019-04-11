@@ -13,5 +13,6 @@ def index():
     return render_template("index.html")
 
 @socketio.on("evento")
-def socket_response():
-     emit("registrato")
+def socket_response(data):
+     message = data["message"]
+     emit("registrato", {"message": message})
