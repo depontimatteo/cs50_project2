@@ -7,10 +7,13 @@ app = Flask(__name__)
 app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
 socketio = SocketIO(app)
 
+title = "Flack"
+
 
 @app.route("/")
 def index():
-    return render_template("index.html")
+     title = "Flack"
+     return render_template("index.html", title=title)
 
 @socketio.on("evento")
 def socket_response(data):
