@@ -1,5 +1,5 @@
 import os
-
+import json
 from flask import Flask, render_template
 from flask_socketio import SocketIO, emit
 
@@ -15,7 +15,7 @@ def index():
      title = "Flack"
      return render_template("index.html", title=title)
 
-@socketio.on("evento")
+@socketio.on("send message")
 def socket_response(data):
-     message = data["message"]
-     emit("registrato", {"message": message})
+     json = data["json"]
+     emit("broadcast message", {"json": json }, broadcast=True)

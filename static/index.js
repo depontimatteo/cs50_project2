@@ -22,18 +22,24 @@ document.addEventListener("DOMContentLoaded", () => {
         document.querySelector('#username').innerHTML = localStorage.getItem('username');
     }
 
-    alert("qui!");
+    //alert("qui!");
     socket.on("connect", () => {
-        document.querySelector("#registra_websocket").onclick = () => {
+        document.querySelector("#send").onclick = () => {
             //alert("lancio emit");
-            message = "Websocket client connected";
-            socket.emit("evento", {"message": message});
+            message = document.querySelector('#message_p').value;
+            var json = '{ "message":"'+message+'", "username":"'+localStorage.getItem('username')+'"}';
+            socket.emit("send message", {"json": json});
         };
     });
 
-    socket.on("registrato", data => {
-        alert("registrato");
-        document.querySelector("#check_websocket").innerHTML += data.message;
+    socket.on("broadcast message", data => {
+        var json = JSON.parse(data.json)
+
+        document.querySelector("#board").innerHTML +=   '<div class="row">'+
+                                                            '<div class="col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xs-12">'+
+                                                                '<span name="user_message" id="user_message"><strong>'+json.username+'</strong>:&nbsp;'+json.message+'</span>'+
+                                                            '</div>'+
+                                                        '</div>';
     });
 });
 
