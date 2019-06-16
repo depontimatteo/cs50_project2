@@ -9,13 +9,23 @@ socketio = SocketIO(app)
 
 title = "Flack"
 
+channels = ["default"]
+
 
 @app.route("/")
 def index():
      title = "Flack"
-     return render_template("index.html", title=title)
+     return render_template("index.html", title=title, channels=channels)
 
 @socketio.on("send message")
-def socket_response(data):
+def send_message(data):
      json = data["json"]
      emit("broadcast message", {"json": json }, broadcast=True)
+
+@socketio.on("add channel")
+def add_channel(data):
+     json_str = data["json"]
+     json_obj = json.loads(json_str)
+     if(json_obj['channel_name'] not in channels):
+          channels.append(json_obj['channel_name'])
+          emit("add channel", {"json": json_str }, broadcast=True)
