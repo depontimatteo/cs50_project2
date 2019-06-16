@@ -10,6 +10,7 @@ socketio = SocketIO(app)
 title = "Flack"
 
 channels = ["default"]
+channel_selected = "default"
 
 
 @app.route("/")
@@ -29,3 +30,9 @@ def add_channel(data):
      if(json_obj['channel_name'] not in channels):
           channels.append(json_obj['channel_name'])
           emit("add channel", {"json": json_str }, broadcast=True)
+
+@socketio.on("channel selected")
+def channel_selected(data):
+     json_str = data["json"]
+     json_obj = json.loads(json_str)
+     channel_selected = json_obj['channel_selected']

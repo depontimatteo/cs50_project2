@@ -10,6 +10,7 @@
     {% endif %} 
     <link rel="stylesheet" href="{{ url_for('static', filename='Styles/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='Styles/simple-sidebar.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='Styles/maculade.css') }}">
 
   </head>
 
@@ -26,7 +27,7 @@
         </div>
         <div class="list-group list-group-flush" id="channels">
           {% for channel in channels %}
-            <a href="#" class="list-group-item list-group-item-action bg-light">{{ channel }}</a> 
+            <a id="{{ channel }}" class="list-group-item list-group-item-action bg-light channel_item">{{ channel }}</a> 
           {% endfor %}
           </div>
         <div class="row">
