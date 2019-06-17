@@ -30,6 +30,22 @@ document.addEventListener("DOMContentLoaded", () => {
             var json = '{ "message":"'+message+'", "username":"'+localStorage.getItem('username')+'"}';
             socket.emit("send message", {"json": json});
         };
+
+        document.querySelector("#add_channel").onclick = () => {
+            //alert("lancio emit");
+            channel_name = document.querySelector('#channel_name_p').value;
+            var json = '{ "channel_name":"'+channel_name+'" }';
+            socket.emit("add channel", {"json": json});
+        };
+
+        document.querySelector(".channel_item").onclick = () => {
+            alert("ciao");
+            $(".channel_item").removeClass("channel_selected");
+            $(this).addClass("channel_selected");
+            var json = '{ "channel_selected":"'+$(this).id+'" }';
+            socket.emit("channel selected", {"json": json});
+        };
+
     });
 
     socket.on("broadcast message", data => {
@@ -40,6 +56,12 @@ document.addEventListener("DOMContentLoaded", () => {
                                                                 '<span name="user_message" id="user_message">('+json.timestamp+')&nbsp;<strong>'+json.username+'</strong>:&nbsp;'+json.message+'</span>'+
                                                             '</div>'+
                                                         '</div>';
+    });
+
+    socket.on("add channel", data => {
+        var json = JSON.parse(data.json)
+
+        document.querySelector("#channels").innerHTML +=   '<a id="'+json.channel_name+'" class="list-group-item list-group-item-action bg-light channel_item">'+json.channel_name+'</a>';
     });
 });
 

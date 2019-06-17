@@ -10,6 +10,7 @@
     {% endif %} 
     <link rel="stylesheet" href="{{ url_for('static', filename='Styles/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='Styles/simple-sidebar.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='Styles/maculade.css') }}">
 
   </head>
 
@@ -24,13 +25,21 @@
             {{ title }}
           {% endif %} 
         </div>
-        <div class="list-group list-group-flush">
-          <a href="#" class="list-group-item list-group-item-action bg-light">Dashboard</a>
-          <a href="#" class="list-group-item list-group-item-action bg-light">Shortcuts</a>
-          <a href="#" class="list-group-item list-group-item-action bg-light">Overview</a>
-          <a href="#" class="list-group-item list-group-item-action bg-light">Events</a>
-          <a href="#" class="list-group-item list-group-item-action bg-light">Profile</a>
-          <a href="#" class="list-group-item list-group-item-action bg-light">Status</a>
+        <div class="list-group list-group-flush" id="channels">
+          {% for channel in channels %}
+            <a id="{{ channel }}" class="list-group-item list-group-item-action bg-light channel_item">{{ channel }}</a> 
+          {% endfor %}
+          </div>
+        <div class="row">
+          <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xs-12">
+            <input type="text" name="channel_name_p" id="channel_name_p" placeholder="Channel Name">
+            <span name="channel_name" id="channel_name"></span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xs-12">
+            <button id="add_channel">Add!</button>
+          </div>
         </div>
       </div>
       <!-- /#sidebar-wrapper -->
