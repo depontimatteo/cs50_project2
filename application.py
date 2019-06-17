@@ -28,10 +28,12 @@ def index():
 @socketio.on("send message")
 def send_message(data):
      json_string = data["json"]
-     json_object = json.loads(json_string);
+     json_object = json.loads(json_string)
      ts = time.gmtime()
-     json_object["timestamp"] = time.strftime("%Y-%m-%d %H:%M:%S", ts)
-     json_string = json.dumps(json_object)
+     print ("channel ",channel_selected)
+     json_message = {}
+     json_message["default"] = [{'timestamp': time.strftime("%Y-%m-%d %H:%M:%S", ts)}, {'username': json_object["username"]}, {'message': json_object["message"]}]
+     json_string = json.dumps(json_message)
      emit("broadcast message", {"json": json_string }, broadcast=True)
 
 @socketio.on("add channel")
