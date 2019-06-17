@@ -26,18 +26,13 @@ def index():
      return render_template("index.html", title=title, channels=channels)
 
 @socketio.on("send message")
-<<<<<<< .merge_file_KHHPax
-def socket_response(data):
+def send_message(data):
      json_string = data["json"]
      json_object = json.loads(json_string);
      ts = time.gmtime()
      json_object["timestamp"] = time.strftime("%Y-%m-%d %H:%M:%S", ts)
      json_string = json.dumps(json_object)
      emit("broadcast message", {"json": json_string }, broadcast=True)
-=======
-def send_message(data):
-     json = data["json"]
-     emit("broadcast message", {"json": json }, broadcast=True)
 
 @socketio.on("add channel")
 def add_channel(data):
@@ -52,4 +47,3 @@ def channel_selected(data):
      json_str = data["json"]
      json_obj = json.loads(json_str)
      channel_selected = json_obj['channel_selected']
->>>>>>> .merge_file_ik7Iu6
