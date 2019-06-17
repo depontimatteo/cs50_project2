@@ -37,7 +37,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         document.querySelector("#board").innerHTML +=   '<div class="row">'+
                                                             '<div class="col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xs-12">'+
-                                                                '<span name="user_message" id="user_message"><strong>'+json.username+'</strong>:&nbsp;'+json.message+'</span>'+
+                                                                '<span name="user_message" id="user_message">('+json.timestamp+')&nbsp;<strong>'+json.username+'</strong>:&nbsp;'+json.message+'</span>'+
                                                             '</div>'+
                                                         '</div>';
     });

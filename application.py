@@ -1,11 +1,18 @@
 import os
 import json
-from flask import Flask, render_template
+import time
+from flask import Flask, render_template, session
+from flask_session import Session
 from flask_socketio import SocketIO, emit
 
 app = Flask(__name__)
 app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
 socketio = SocketIO(app)
+
+# Configure session to use filesystem
+app.config["SESSION_PERMANENT"] = False
+app.config["SESSION_TYPE"] = "filesystem"
+Session(app)
 
 title = "Flack"
 
@@ -17,5 +24,9 @@ def index():
 
 @socketio.on("send message")
 def socket_response(data):
-     json = data["json"]
-     emit("broadcast message", {"json": json }, broadcast=True)
+     json_string = data["json"]
+     json_object = json.loads(json_string);
+     ts = time.gmtime()
+     json_object["timestamp"] = time.strftime("%Y-%m-%d %H:%M:%S", ts)
+     json_string = json.dumps(json_object)
+     emit("broadcast message", {"json": json_string }, broadcast=True)
