@@ -16,8 +16,11 @@ Session(app)
 
 title = "Flack"
 
+global channels
+global channel_selected
+
 channels = ["default"]
-channel_selected = "default"
+channel_in_use = "default"
 
 
 @app.route("/")
@@ -30,9 +33,9 @@ def send_message(data):
      json_string = data["json"]
      json_object = json.loads(json_string)
      ts = time.gmtime()
-     print ("channel ",channel_selected)
+     print ("channel ",channel_in_use)
      json_message = {}
-     json_message["default"] = [{'timestamp': time.strftime("%Y-%m-%d %H:%M:%S", ts)}, {'username': json_object["username"]}, {'message': json_object["message"]}]
+     json_message[channel_in_use] = {'timestamp': time.strftime("%Y-%m-%d %H:%M:%S", ts), 'username': json_object["username"], 'message': json_object["message"]}
      json_string = json.dumps(json_message)
      emit("broadcast message", {"json": json_string }, broadcast=True)
 
@@ -48,4 +51,5 @@ def add_channel(data):
 def channel_selected(data):
      json_str = data["json"]
      json_obj = json.loads(json_str)
-     channel_selected = json_obj['channel_selected']
+     channel_in_use = json_obj['channel_selected']
+     print ("channel ",channel_in_use)
