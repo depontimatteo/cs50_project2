@@ -53,6 +53,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     socket.on("broadcast message", data => {
         var json = JSON.parse(data.json)
+        console.log(json)
         let channel_selected = localStorage.getItem('channel_selected');
 
         document.querySelector("#board").innerHTML +=   '<div class="row">'+
@@ -67,5 +68,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
         document.querySelector("#channels").innerHTML +=   '<a id="'+json.channel_name+'" class="list-group-item list-group-item-action bg-light channel_item">'+json.channel_name+'</a>';
     });
+
+    socket.on("channel present", data => {
+        alert("the channel is already present, please change name")
+    })
+
 });
 
