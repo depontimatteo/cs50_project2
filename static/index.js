@@ -1,19 +1,28 @@
 
-if (!localStorage.getItem('username')){
-    localStorage.setItem('username', '');
-} else {
-    document.querySelector('#username_p').style.display = "none";
-    document.querySelector('#username').innerHTML = localStorage.getItem('username');
-}
-
-$("#menu-toggle").click(function(e) {
-    e.preventDefault();
-    $("#wrapper").toggleClass("toggled");
-});
     
 
 document.addEventListener("DOMContentLoaded", () => {
-    var socket = io.connect(location.protocol + "//" + document.domain + ":" + location.port);
+
+    if (!localStorage.getItem('username')){
+        localStorage.setItem('username', '');
+    } else {
+        document.querySelector('#username_p').style.display = "none";
+        document.querySelector('#username').innerHTML = localStorage.getItem('username');
+    }
+    
+    if (!localStorage.getItem('channel_selected')){
+        localStorage.setItem('channel_selected', '');
+    } else {
+        $(".channel_item").removeClass("channel_selected");
+        $("#"+localStorage.getItem('channel_selected')).addClass("channel_selected");
+    }
+    
+    $("#menu-toggle").click(function(e) {
+        e.preventDefault();
+        $("#wrapper").toggleClass("toggled");
+    });
+
+    let socket = io.connect(location.protocol + "//" + document.domain + ":" + location.port);
 
     document.querySelector('#save_username').onclick = () => {
         let username = localStorage.getItem('username');
@@ -27,24 +36,23 @@ document.addEventListener("DOMContentLoaded", () => {
         document.querySelector("#send").onclick = () => {
             //alert("lancio emit");
             message = document.querySelector('#message_p').value;
-            var json = '{ "message":"'+message+'", "username":"'+localStorage.getItem('username')+'"}';
+            let json = '{ "message":"'+message+'", "username":"'+localStorage.getItem('username')+'"}';
             socket.emit("send message", {"json": json});
         };
 
         document.querySelector("#add_channel").onclick = () => {
             //alert("lancio emit");
             channel_name = document.querySelector('#channel_name_p').value;
-            var json = '{ "channel_name":"'+channel_name+'" }';
+            let json = '{ "channel_name":"'+channel_name+'" }';
             socket.emit("add channel", {"json": json});
         };
 
         $("#channels").on("click", "a.channel_item", function() {
-            alert("ciao "+$(this).attr("id"));
             $(".channel_item").removeClass("channel_selected");
             $(this).addClass("channel_selected");
-            var json = '{ "channel_selected":"'+$(this).attr("id")+'" }';
+            let json = '{ "channel_selected":"'+$(this).attr("id")+'" }';
+            document.querySelector("#board").innerHTML=''
             localStorage.setItem('channel_selected', $(this).attr("id"));
-            document.querySelector("#board").innerHTML="";
             socket.emit("channel selected", {"json": json});
         });
 
@@ -52,8 +60,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     socket.on("broadcast message", data => {
-        var json = JSON.parse(data.json)
-        console.log(json)
+        let json = JSON.parse(data.json)
         let channel_selected = localStorage.getItem('channel_selected');
 
         document.querySelector("#board").innerHTML +=   '<div class="row">'+
@@ -64,14 +71,29 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     socket.on("add channel", data => {
-        var json = JSON.parse(data.json)
+        let json = JSON.parse(data.json)
 
         document.querySelector("#channels").innerHTML +=   '<a id="'+json.channel_name+'" class="list-group-item list-group-item-action bg-light channel_item">'+json.channel_name+'</a>';
     });
 
     socket.on("channel present", data => {
         alert("the channel is already present, please change name")
-    })
+    });
+
+    socket.on("channel last messages", data => {
+        let messages_list = []
+        messages_list = JSON.parse(data.json)
+        
+        messages_list.map(obj => {
+
+            document.querySelector("#board").innerHTML +=   '<div class="row">'+
+                '<div class="col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xs-12">'+
+                    '<span name="user_message" id="user_message">('+obj.timestamp+')&nbsp;<strong>'+obj.username+'</strong>:&nbsp;'+obj.message+'</span>'+
+                '</div>'+
+            '</div>';
+        })
+
+    });
 
 });
 
