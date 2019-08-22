@@ -7,7 +7,8 @@ document.addEventListener("DOMContentLoaded", () => {
         localStorage.setItem('username', '');
     } else {
         document.querySelector('#username_p').style.display = "none";
-        document.querySelector('#username').innerHTML = localStorage.getItem('username');
+        document.querySelector('#save_username').style.display = "none";
+        document.querySelector('#username').innerHTML = "Welcome, " + localStorage.getItem('username');
     }
     
     if (!localStorage.getItem('channel_selected')){
@@ -28,7 +29,8 @@ document.addEventListener("DOMContentLoaded", () => {
         let username = localStorage.getItem('username');
         localStorage.setItem('username', document.querySelector('#username_p').value);
         document.querySelector('#username_p').style.display = "none";
-        document.querySelector('#username').innerHTML = localStorage.getItem('username');
+        document.querySelector('#save_username').style.display = "none";
+        document.querySelector('#username').innerHTML = "Welcome, " + localStorage.getItem('username');
     }
 
     //alert("qui!");
@@ -36,6 +38,7 @@ document.addEventListener("DOMContentLoaded", () => {
         document.querySelector("#send").onclick = () => {
             //alert("lancio emit");
             message = document.querySelector('#message_p').value;
+            document.querySelector('#message_p').value = '';
             let json = '{ "message":"'+message+'", "username":"'+localStorage.getItem('username')+'"}';
             socket.emit("send message", {"json": json});
         };
@@ -43,6 +46,7 @@ document.addEventListener("DOMContentLoaded", () => {
         document.querySelector("#add_channel").onclick = () => {
             //alert("lancio emit");
             channel_name = document.querySelector('#channel_name_p').value;
+            document.querySelector('#channel_name_p').value = '';
             let json = '{ "channel_name":"'+channel_name+'" }';
             socket.emit("add channel", {"json": json});
         };

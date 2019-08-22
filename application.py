@@ -55,7 +55,8 @@ def add_channel(data):
      json_str = data["json"]
      json_obj = json.loads(json_str)
      if(json_obj['channel_name'] not in channels.keys()):
-          channels[json_obj['channel_name']] = messages_sent
+          new_message_sent = collections.deque(maxlen=100)
+          channels[json_obj['channel_name']] = new_message_sent
           pprint.pprint(channels)
           emit("add channel", {"json": json_str }, broadcast=True)
      else:
@@ -67,7 +68,7 @@ def channel_selected(data):
      json_obj = json.loads(json_str)
      session["channel_in_use"] = json_obj['channel_selected']
      print ("channel ",session["channel_in_use"])
-     messages_list_deque = channels.get(session["channel_in_use"])
+     messages_list_deque = channels[session["channel_in_use"]]
      print(messages_list_deque)
      if(messages_list_deque is not None):
           message_list = list(messages_list_deque)
