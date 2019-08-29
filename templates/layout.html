@@ -26,17 +26,16 @@
           {% endif %} 
         </div>
         <div class="list-group list-group-flush" id="channels">
-          {% for channel in channels %}
-            <a id="{{ channel }}" class="list-group-item list-group-item-action bg-light channel_item">{{ channel }}</a> 
-          {% endfor %}
+        {% for channel in channels %}
+          <a id="{{ channel }}" class="list-group-item list-group-item-action bg-light channel_item">{{ channel }}</a> 
+        {% endfor %}
+        </div>
+        <div class="row">
+          <div class="form-group col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xs-12 padded_on_top">
+            <input type="text" class="form-control-plaintext" name="channel_name_p" id="channel_name_p" autocomplete="off" placeholder="New channel">
           </div>
-          <div class="row">
-            <div class="form-group col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xs-12">
-              <input type="text" class="form-control-plaintext" name="channel_name_p" id="channel_name_p" autocomplete="off" placeholder="New channel">
-            </div>
-            <div class="form-group col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xs-12">
-              <button class="btn btn-primary mt-2 mt-md-0" id="add_channel">+</button>
-            </div>
+          <div class="form-group col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xs-12 padded_on_top">
+            <button class="btn btn-primary mt-2 mt-md-0" id="add_channel">+</button>
           </div>
         </div>
       </div>
@@ -57,15 +56,14 @@
 
         <footer class="footer">
           <div class="form-row">
-            <div class="form-group col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xs-12">
-              <input type="message" class="form-control-plaintext" name="message_p" id="message_p" autocomplete="off" placeholder="Text your message">
+            <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xs-12 padded_on_top">
+              <input type="message" class="form-control-plaintext mt-2 mt-md-0" name="message_p" id="message_p" autocomplete="off" placeholder="Text your message">
             </div>
-            <div class="form-group col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xs-12">
+            <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xs-12">
               <button class="btn btn-primary mt-2 mt-md-0" id="send">Send!</button>
             </div>
           </div>
         </footer>
-
         
       </div>
       <!-- /#page-content-wrapper -->

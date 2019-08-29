@@ -14,3 +14,9 @@
 .footer > div {
     padding-left: 15px;
 }
+
+.padded_on_top {
+    padding-top: 10px;
+    padding-left: 25px;
+    text-align: center;
+}
