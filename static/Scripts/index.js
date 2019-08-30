@@ -12,10 +12,20 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     
     if (!localStorage.getItem('channel_selected')){
-        localStorage.setItem('channel_selected', '');
+        localStorage.setItem('channel_selected', 'default');
+        document.querySelector('#default').click();
     } else {
         $(".channel_item").removeClass("channel_selected");
-        $("#"+localStorage.getItem('channel_selected')).addClass("channel_selected");
+
+        if(document.querySelector('#' + localStorage.getItem('channel_selected'))){
+            $("#"+localStorage.getItem('channel_selected')).addClass("channel_selected");
+        }
+        else{
+            $('#default').addClass("channel_selected");
+            localStorage.setItem('channel_selected', 'default');
+            document.querySelector('#default').click();
+        }
+        
     }
     
     $("#menu-toggle").click(function(e) {

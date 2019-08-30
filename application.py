@@ -74,4 +74,4 @@ def channel_selected(data):
           message_list = list(messages_list_deque)
           print(message_list)
           json_channels_string = json.dumps(message_list)
-          emit("channel last messages", {"json": json_channels_string }, broadcast=True)
+          emit("channel last messages", {"json": json_channels_string })
