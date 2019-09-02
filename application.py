@@ -24,10 +24,18 @@ global channel_selected
 messages_sent = collections.deque(maxlen=100)
 channels = { "default": messages_sent }
 
+def emit_last_messages(messages_list_deque):
+     if(messages_list_deque is not None):
+          message_list = list(messages_list_deque)
+          print(message_list)
+          json_channels_string = json.dumps(message_list)
+          
+          return json_channels_string
+
 @app.route("/")
 def index():
      title = "Flack"
-     session["channel_in_use"] = "default"
+     session["channel_in_use"] = "default"     
      return render_template("index.html", title=title, channels=channels)
 
 @socketio.on("send message")
@@ -70,8 +78,7 @@ def channel_selected(data):
      print ("channel ",session["channel_in_use"])
      messages_list_deque = channels[session["channel_in_use"]]
      print(messages_list_deque)
-     if(messages_list_deque is not None):
-          message_list = list(messages_list_deque)
-          print(message_list)
-          json_channels_string = json.dumps(message_list)
+     json_channels_string = emit_last_messages(messages_list_deque)
+
+     if(json_channels_string is not None):
           emit("channel last messages", {"json": json_channels_string })
